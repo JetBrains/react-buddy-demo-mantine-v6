@@ -102,8 +102,10 @@ import {
   Header,
   Navbar,
   Portal,
+  Flex,
+  PinInput,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
+import { useForm, isEmail } from "@mantine/form";
 
 export default () => (
   <Palette>
@@ -158,6 +160,21 @@ export default () => (
       <Component name="Container" docURL="https://mantine.dev/core/container/">
         <Variant>
           <Container>Content</Container>
+        </Variant>
+      </Component>
+      <Component name="Flex" docURL="https://mantine.dev/core/flex/">
+        <Variant previewLayout="stretch">
+          <Flex
+            gap="md"
+            justify="flex-start"
+            align="flex-start"
+            direction="row"
+            wrap="wrap"
+          >
+            <Button>Button 1</Button>
+            <Button>Button 2</Button>
+            <Button>Button 3</Button>
+          </Flex>
         </Variant>
       </Component>
       <Component name="Grid" docURL="https://mantine.dev/core/grid/">
@@ -239,7 +256,7 @@ export default () => (
         <Variant>
           <MediaQuery
             query="(max-width: 1200px) and (min-width: 800px)"
-            styles={{ fontSize: 20, "&:hover": { backgroundColor: "silver" } }}
+            styles={{ fontSize: "1.5rem", "&:hover": { backgroundColor: "silver" } }}
           >
             <Text>(max-width: 1200px) and (min-width: 800px) breakpoints</Text>
           </MediaQuery>
@@ -500,8 +517,14 @@ export default () => (
         <Variant>
           <Chip>Your label</Chip>
         </Variant>
+        <Variant name="outline">
+          <Chip variant="outline" checked>Your label</Chip>
+        </Variant>
         <Variant name="filled">
-          <Chip variant="filled">Your label</Chip>
+          <Chip variant="filled" checked>Your label</Chip>
+        </Variant>
+        <Variant name="light">
+          <Chip variant="light" checked>Your label</Chip>
         </Variant>
         <Variant name="with color">
           <Chip color="red" checked>
@@ -840,6 +863,32 @@ export default () => (
           <PasswordInput label="Your label" icon={<CheckIcon />} />
         </Variant>
       </Component>
+      <Component name="PinInput" docURL="https://mantine.dev/core/pin-input/">
+        <Variant>
+          <PinInput />
+        </Variant>
+        <Variant name="length">
+          <PinInput length={6} />
+        </Variant>
+        <Variant name="type number">
+          <PinInput type="number" />
+        </Variant>
+        <Variant name="type regex">
+          <PinInput type={/^[0-3]+/} />
+        </Variant>
+        <Variant name="placeholder">
+          <PinInput placeholder="⊡" />
+        </Variant>
+        <Variant name="disabled">
+          <PinInput disabled />
+        </Variant>
+        <Variant name="error">
+          <PinInput error />
+        </Variant>
+        <Variant name="mask">
+          <PinInput mask />
+        </Variant>
+      </Component>
       <Component name="Radio" docURL="https://mantine.dev/core/radio">
         <Variant>
           <Radio value="value" label="Your label" defaultChecked />
@@ -857,13 +906,6 @@ export default () => (
       >
         <Variant>
           <Radio.Group label="Your label" description="Your description">
-            <Radio value="value1" label="Value1" />
-            <Radio value="value2" label="Value2" />
-            <Radio value="value3" label="Value3" />
-          </Radio.Group>
-        </Variant>
-        <Variant name="vertical">
-          <Radio.Group label="Your label" orientation="vertical">
             <Radio value="value1" label="Value1" />
             <Radio value="value2" label="Value2" />
             <Radio value="value3" label="Value3" />
@@ -951,6 +993,9 @@ export default () => (
               { label: "value3", value: "Value3" },
             ]}
           />
+        </Variant>
+        <Variant name="readonly">
+          <SegmentedControl readOnly data={["value1", "value2", "value3"]} />
         </Variant>
         <Variant name="fullWidth">
           <SegmentedControl fullWidth data={["value1", "value2", "value3"]} />
@@ -1266,6 +1311,17 @@ export default () => (
         </Variant>
         <Variant name="without controls">
           <Pagination total={10} withControls={false} />
+        </Variant>
+        <Variant name="modular">
+          <Pagination.Root total={10}>
+            <Group spacing={5} position="center">
+              <Pagination.First />
+              <Pagination.Previous />
+              <Pagination.Items />
+              <Pagination.Next />
+              <Pagination.Last />
+            </Group>
+          </Pagination.Root>
         </Variant>
       </Component>
       <Component name="Stepper" docURL="https://mantine.dev/core/stepper/">
@@ -1587,6 +1643,7 @@ export default () => (
             Content
           </div>
         </Variant>
+        <Variant name="with button" proto={OverlayWithButtonProto} />
       </Component>
       <Component name="Popover" docURL="https://mantine.dev/core/popover/">
         <Variant>
@@ -1794,11 +1851,6 @@ export default () => (
         <Variant name="strikethrough">
           <Text strikethrough>Strikethrough</Text>
         </Variant>
-        <Variant name="link">
-          <Text variant="link" component="a" href="#">
-            Link variant
-          </Text>
-        </Variant>
         <Variant name="uppercase">
           <Text transform="uppercase">Uppercase</Text>
         </Variant>
@@ -1926,8 +1978,8 @@ export default () => (
             Content
           </Notification>
         </Variant>
-        <Variant name="disallowClose">
-          <Notification title="Your title" disallowClose>
+        <Variant name="withCloseButton">
+          <Notification title="Your title" withCloseButton>
             Content
           </Notification>
         </Variant>
@@ -2101,7 +2153,7 @@ export default () => (
           </ScrollArea>
         </Variant>
         <Variant name="Autosize">
-          <ScrollArea.Autosize maxHeight={100} sx={{ maxWidth: 200 }} mx="auto">
+          <ScrollArea.Autosize mah={100} sx={{ maxWidth: 200 }} mx="auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -2135,9 +2187,9 @@ function FormProto() {
     validate: {},
   });
 
-  const handleError = (errors: typeof form.errors) => {};
+  const handleError = (errors: typeof form.errors) => { };
 
-  const handleSubmit = (values: typeof form.values) => {};
+  const handleSubmit = (values: typeof form.values) => { };
 
   return (
     <form
@@ -2162,7 +2214,7 @@ function FormExampleProto() {
       },
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: isEmail('Invalid email'),
     },
   });
 
@@ -2226,6 +2278,38 @@ function TransferListProto() {
       titles={["Frameworks", "Libraries"]}
       breakpoint="sm"
     />
+  );
+}
+
+function OverlayWithButtonProto() {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div
+      style={{
+        width: 200,
+        height: 100,
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          background: "gray"
+        }}
+        onClick={() => setVisible(false)}
+      >
+        Content
+      </div>
+      {!visible && (
+        <Overlay blur={15} center>
+          <Button color="red" radius="xl" onClick={() => setVisible(true)}>
+            NSFW, click to reveal
+          </Button>
+        </Overlay>
+      )}
+    </div>
   );
 }
 
