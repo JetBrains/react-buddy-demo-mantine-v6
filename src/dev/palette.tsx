@@ -1492,8 +1492,33 @@ export default () => (
             <Avatar />
           </Indicator>
         </Variant>
+        <Variant name="inline">
+          <Indicator inline label="New">
+            <Avatar />
+          </Indicator>
+        </Variant>
+        <Variant name="position">
+          <Indicator position="bottom-end">
+            <Avatar />
+          </Indicator>
+        </Variant>
+        <Variant name="disabled">
+          <Indicator disabled>
+            <Avatar />
+          </Indicator>
+        </Variant>
+        <Variant name="processing">
+          <Indicator processing>
+            <Avatar />
+          </Indicator>
+        </Variant>
         <Variant name="withBorder">
           <Indicator withBorder>
+            <Avatar />
+          </Indicator>
+        </Variant>
+        <Variant name="with color">
+          <Indicator color="red">
             <Avatar />
           </Indicator>
         </Variant>
@@ -2185,13 +2210,16 @@ export default () => (
         <Variant name="hover demo" proto={TransitionHoverDemoProto} />
       </Component>
     </Category>
-    <Category name="form">
-      <Component name="form" docURL="https://mantine.dev/form/use-form/">
+    <Category name="Form">
+      <Component name="Form" docURL="https://mantine.dev/form/use-form/">
         <Variant proto={FormProto} />
         <Variant name="example" proto={FormExampleProto} />
       </Component>
+      <Component name="useForm">
+        <Variant proto={UseFormProto} />
+      </Component>
     </Category>
-    <Category name="dates">
+    <Category name="Dates">
       <Component name="DatesProvider" docURL="https://mantine.dev/dates/dates-provider/">
         <Variant>
           <DatesProvider settings={{ locale: 'ru', firstDayOfWeek: 0, weekendDays: [0] }}>
@@ -3050,6 +3078,13 @@ function PortalProto() {
 }
 
 // @mantine/form protos
+function UseFormProto() {
+    const form = useForm({
+        initialValues: {},
+        validate: {},
+    });
+}
+
 function FormProto() {
   const form = useForm({
     initialValues: {},
